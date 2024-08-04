@@ -1,0 +1,125 @@
+/***
+   *   函数名:send_TXY_AuthCode
+   *   参数mobile  : 手机号
+   *   参数authCode :验证码  建议6位数
+   *   使用此接口exe要和openssl的动态库版本要和qt版本相匹配  因为请求协议是https协议
+   *   直接把和qt相匹配的openssl动态库放到exe目录下就可以 不需要调用 qt内部已经掉用openssl接口
+   *
+ ***/
+
+int send_TXY_AuthCode(QString mobile, int authCode)
+{
+   //提供商:腾讯云通信
+    //当前时间
+    QDateTime currtime=QDateTime::currentDateTime();
+    QString stime=currtime.toString("yyyy-MM-dd");
+    qint64 time =currtime.toSecsSinceEpoch();
+
+    //请求头参数
+    QByteArray Action="SendSms";
+    QByteArray Region="ap-guangzhou";
+    QByteArray Timestamp=QByteArray::number(time,10);
+    QByteArray Version="2021-01-11";
+    QByteArray Authorization;
+    QByteArray Token="";
+    QByteArray Language="zh-CN";
+
+
+    //请求数据
+     QByteArray post_data= "{"
+                              "\"PhoneNumberSet\":[\"86"+mobile.toLatin1()+"\"],"
+                              "\"SmsSdkAppId\":\"1400888059\","
+                              "\"SignName\":\"xxx个人公众号\","
+                              "\"TemplateId\":\"2091012\","
+                              "\"TemplateParamSet\":[\""+QByteArray::number(authCode,10)+"\",\"3\"]"
+                           "}";
+
+
+    //1. 拼接规范请求串 CanonicalRequest
+    QByteArray HTTPRequestMethod="POST";
+    QByteArray CanonicalURI="/";
+    QByteArray CanonicalQueryString="";
+    QByteArray CanonicalHeaders="content-type:application/json\nhost:sms.tencentcloudapi.com\nx-tc-action:sendsms\n";
+    QByteArray SignedHeaders="content-type;host;x-tc-action";
+    QByteArray HashedRequestPayload= QCryptographicHash::hash(post_data, QCryptographicHash::Sha256).toHex().toLower();
+
+    QByteArray   CanonicalRequest
+       =
+      HTTPRequestMethod + '\n' +
+      CanonicalURI + '\n' +
+      CanonicalQueryString + '\n' +
+      CanonicalHeaders + '\n' +
+      SignedHeaders + '\n' +
+      HashedRequestPayload;
+
+    // 2. 拼接待签名字符串StringToSign
+      QByteArray Algorithm="TC3-HMAC-SHA256";
+      QByteArray RequestTimestamp=Timestamp;
+      QByteArray CredentialScope=stime.toLatin1()+"/sms/tc3_request";
+      QByteArray HashedCanonicalRequest=QCryptographicHash::hash(CanonicalRequest, QCryptographicHash::Sha256).toHex().toLower();
+
+      QByteArray StringToSign
+          =
+          Algorithm + "\n" +
+          RequestTimestamp + "\n" +
+          CredentialScope + "\n" +
+          HashedCanonicalRequest;
+
+      //HMAC_SHA256 加密算法
+      auto HMAC_SHA256=[](const QByteArray &key, const QByteArray &input)
+      {
+          QByteArray result = QMessageAuthenticationCode::hash(input, key, QCryptographicHash::Sha256);
+          return result;
+      };
+
+     //3. 计算签名
+      QByteArray SecretKey="你的SecretKey";
+      QByteArray SecretDate=HMAC_SHA256("TC3" + SecretKey, stime.toLatin1()) ;
+      QByteArray SecretService=HMAC_SHA256(SecretDate, "sms") ; ;
+      QByteArray SecretSigning=HMAC_SHA256(SecretService, "tc3_request") ;
+
+     //最终的签名字符串
+      QByteArray Signature = HMAC_SHA256(SecretSigning, StringToSign).toHex();
+
+     //4. 拼接 Authorization
+     QByteArray SecretId="AKIDZ9YjgV8Xiv78wqdCrkV3Nl1Ro0SyYu33";
+
+     Authorization =
+        Algorithm + " Credential=" +
+        SecretId + "/" + CredentialScope +
+        ", SignedHeaders=" + SignedHeaders +
+        ", Signature=" + Signature;
+
+
+     //前面的所有步骤的都是为什么计算出  Authorization
+     QNetworkRequest request;
+     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+     request.setUrl(QUrl("https://sms.tencentcloudapi.com"));
+     request.setRawHeader("X-TC-Action",Action);
+     request.setRawHeader("X-TC-Region",Region);
+     request.setRawHeader("X-TC-Timestamp",Timestamp);
+     request.setRawHeader("X-TC-Version",Version);
+     request.setRawHeader("Authorization",Authorization);
+     request.setRawHeader("X-TC-Token",Token);
+     request.setRawHeader("X-TC-Language",Language);
+
+     static QNetworkAccessManager manager;
+     QNetworkReply* reply = manager.post(request, post_data);
+     //开启事件循环，直到请求完成
+     QEventLoop loop;
+     connect(reply,&QNetworkReply::finished,&loop,&QEventLoop::quit);
+     loop.exec();
+
+     QByteArray ret= reply->readAll();
+     //释放对象
+     reply->deleteLater();
+
+    QJsonObject obj= QJsonDocument::fromJson(ret).object();
+    QJsonArray a= obj.value("Response").toObject().value("SendStatusSet").toArray();
+
+    QString Code= a.at(0).toObject().value("Code").toString();
+    qDebug()<<"Code="<<Code;
+    qDebug()<<"Code="<<ret;
+
+    return Code=="Ok";
+}
