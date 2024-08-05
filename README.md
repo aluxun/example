@@ -7,9 +7,10 @@
    5. 支持自定义http、https的自定义get post请求和响应.(Lx_httpServer.rar解压出来里面有个httpClient目录就是自定义post请求例子)
 ***
 ## Lx_MInIO.rar
-   ### 对象存储(Minio)和消息队列(Kafka、Rocketmq) 注:在腾讯云产品服务上我就比较关系这两个(腾讯短信的请求参数生成是真的恶心人 太麻烦了 还好有调试工具 最终成功)
-   这是一个关于对象存储(minio)的例子，其编译环境是 msvc x64,官方说世界上最快的对象存储,没有之一。支持文件的断点续传、分片上传、桶支持有效时间(对象上传之后开始 超过有效期之后自动删除对象)
    [minio中文官网](https://www.minio.org.cn/?bd_vid=6839495683016526177)
+   ### 对象存储(Minio)和消息队列(消息中间件Kafka、Rocketmq )  注:在腾讯云产品服务上我就比较关注这两个产品(腾讯短信的请求参数生成是真的恶心人 太麻烦了 还好有调试工具 最终成功)
+   这是一个关于对象存储(minio)的例子，其编译环境是 msvc x64,官方说世界上最快的对象存储,没有之一。支持文件的断点续传、分片上传、桶支持有效时间(对象上传之后开始 超过有效期之后自动删除对象)
+   
 ***
 ## Lx_httpServer.rar和vs_httpServer.rar
    http.exe、https.exe source_code
