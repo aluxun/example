@@ -23,7 +23,7 @@
   redis    
   [HBase官网](https://hbase.apache.org/)  
   [Cassandra官网](http://www.cassandra.com.cn/)  
-  后面两个是java产品  我想要这两个的c++ 客户端sdk 感觉编译有点难
+  后面两个和消息中间件(Kafka、Rocketmq)是java语言实现 Apache软件基金会的产品  想要编译这两个的c++ Thrift 客户端sdk有点难度
      
 
   
