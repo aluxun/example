@@ -17,7 +17,8 @@
    http.exe、https.exe source_code
 ***
 ## Lx_SqlDatabase.rar
-  这是纯c的数据库接口  支持mysql、sqlite两种数据库 特点:和qt有相同的api接口名 如果是控制台应用，也就是不需要gui的 且又需要数据库支持的  支持跨平台.  
+  这是纯c的数据库接口  支持mysql、sqlite两种数据库 特点:和qt有相同的api接口名 如果是控制台应用，也就是不需要gui的 且又需要数据库支持的  支持跨平台.
+    
   NoSql数据库：  
   redis    
   [HBase官网](https://hbase.apache.org/)  
