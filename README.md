@@ -23,13 +23,13 @@
   redis    
   [HBase官网](https://hbase.apache.org/)  
   [Cassandra官网](http://www.cassandra.com.cn/) 
-  NewSql数据库:
+  NewSql数据库:  
     TiDB数据库[TiDB官网](https://cn.pingcap.com/)  
   后面两个和消息中间件(Kafka、Rocketmq)是java语言实现 Apache软件基金会的产品  想要编译这两个的c++ Thrift 客户端sdk有点难度
 
   数据存储和分布式数据存储  
      数据持久化可以保存在 txt文件 二进制文件(序列化结构体到二进制文件中) 注册表以及数据库 等    
-  想要存储海量数据只能采用分布式存储  类似把一个大文件分成多个小文件保存在不同的计算机(节点)上   minio和hbase Cassandra TiDB都支持分布式存储  把多个hbase服务端集群运行在不同的节点上  
+  想要存储海量数据只能采用分布式存储  类似把一个大文件分成多个小文件保存在不同的计算机(节点)上   minio和hbase Cassandra TiDB都支持分布式存储    把多个hbase服务端集群运行在不同的节点上  
      然后通过客户端的sdk访问这些服务端集群 这些服务端集群可能有中心(主)节点  也可能没有主节点  采用某种负载均衡算法将各个服务端节点连接起来。
      
 
