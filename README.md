@@ -22,11 +22,12 @@
   NoSql数据库：  
   redis    
   [HBase官网](https://hbase.apache.org/)  
-  [Cassandra官网](http://www.cassandra.com.cn/)
+  [Cassandra官网](http://www.cassandra.com.cn/)  
+  后面两个和消息中间件(Kafka、Rocketmq)是java语言实现 Apache软件基金会的产品  想要编译这两个的c++ Thrift 客户端sdk有点难度
     
   NewSql数据库:  
     TiDB数据库[TiDB官网](https://cn.pingcap.com/)  
-  后面两个和消息中间件(Kafka、Rocketmq)是java语言实现 Apache软件基金会的产品  想要编译这两个的c++ Thrift 客户端sdk有点难度
+  
 
   数据存储和分布式数据存储  
      数据持久化可以保存在 txt文件 二进制文件(序列化结构体到二进制文件中) 注册表以及数据库 等    
