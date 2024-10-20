@@ -7,8 +7,8 @@
    5. 支持自定义http、https的自定义get post请求和响应.(Lx_httpServer.rar解压出来里面有个httpClient目录就是自定义post请求例子)
 ***
 ## Lx_MInIO.rar or Lx_MInIOSDK.rar
-   ### Lx_MInIO.rar: AWS的S3接口 ,因为minio兼容s3接口，使用的是aws-cpp-sdk
-   ### Lx_MInIOSDK.rar: minio(minio是go实现的  我不会这个go语言)官方提供的c++客户端sdk,官方源码地址(https://github.com/minio/minio-cpp)
+   #### Lx_MInIO.rar: AWS的S3接口 ,因为minio兼容s3接口，使用的是aws-cpp-sdk
+   #### Lx_MInIOSDK.rar: minio(minio是go实现的  我不会这个go语言)官方提供的c++客户端sdk,官方源码地址(https://github.com/minio/minio-cpp)
    [minio中文官网](https://www.minio.org.cn/?bd_vid=6839495683016526177)  
    [RocketMq官网](https://rocketmq.apache.org/zh/)
    ### 对象存储(Minio)和消息队列(消息中间件Kafka、Rocketmq )  注:在腾讯云产品服务上我就比较关注这两个产品(腾讯短信的请求参数生成是真的恶心人 太麻烦了 还好有调试工具 最终成功)
